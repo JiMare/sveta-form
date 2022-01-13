@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 type userInfo = {
   email: string;
@@ -13,7 +14,10 @@ const App = () => {
   const [password, setPassword] = useState<string>("");
   const [confirm, setConfirm] = useState<string>("");
   const [showAlert, setShowAlert] = useState<boolean>(false);
- 
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+  const [focus, setFocus] = useState<boolean>(false);
+
   const getUsername = (): void => {
     const index = mail.indexOf("@");
     let name = mail.slice(0, index);
@@ -57,9 +61,21 @@ const App = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     getUsername();
-    if(validatePassword() && password === confirm) {
+    if (validatePassword() && password === confirm) {
       setShowAlert(true);
     }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleShowConfirm = () => {
+    setShowConfirm(!showConfirm);
+  };
+
+  const toggleFocus = () => {
+    setFocus(!focus);
   };
 
   return (
@@ -109,46 +125,59 @@ const App = () => {
             </label>
             <input
               className="border border-grey-500 bg-grey-100 hover:border-green-400 focus:outline-none focus:bg-white focus:border-green-400 rounded-full py-2 px-3 text-gray-700"
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              onFocus={toggleFocus}
+              onBlur={toggleFocus}
             />
-
-            <p
-              className={
-                password.length === 0
-                  ? "text-grey-500 text-xs italic"
-                  : password.length >= 8
-                  ? "text-green-500 text-xs italic"
-                  : "text-red-500 text-xs italic"
-              }
-            >
-              At least 8 characters
-            </p>
-            <p
-              className={
-                password.length === 0
-                  ? "text-grey-500 text-xs italic"
-                  : hasUpperAndLower
-                  ? "text-green-500 text-xs italic"
-                  : "text-red-500 text-xs italic"
-              }
-            >
-              At least 1 upper case and 1 lower case letter
-            </p>
-            <p
-              className={
-                password.length === 0
-                  ? "text-grey-500 text-xs italic"
-                  : hasSpecialChar
-                  ? "text-green-500 text-xs italic"
-                  : "text-red-500 text-xs italic"
-              }
-            >
-              At least 1 special character (like !@#$%^?)
-            </p>
+            <VisibilityIcon
+              className="-ml-10 cursor-pointer"
+              onClick={toggleShowPassword}
+            ></VisibilityIcon>
+            {!focus && validatePassword ? (
+              <p className="text-green-500 text-xs italic">
+                All requirements met
+              </p>
+            ) : (
+              <>
+                <p
+                  className={
+                    password.length === 0
+                      ? "text-grey-500 text-xs italic"
+                      : password.length >= 8
+                      ? "text-green-500 text-xs italic"
+                      : "text-red-500 text-xs italic"
+                  }
+                >
+                  At least 8 characters
+                </p>
+                <p
+                  className={
+                    password.length === 0
+                      ? "text-grey-500 text-xs italic"
+                      : hasUpperAndLower
+                      ? "text-green-500 text-xs italic"
+                      : "text-red-500 text-xs italic"
+                  }
+                >
+                  At least 1 upper case and 1 lower case letter
+                </p>
+                <p
+                  className={
+                    password.length === 0
+                      ? "text-grey-500 text-xs italic"
+                      : hasSpecialChar
+                      ? "text-green-500 text-xs italic"
+                      : "text-red-500 text-xs italic"
+                  }
+                >
+                  At least 1 special character (like !@#$%^?)
+                </p>
+              </>
+            )}
           </div>
           <div className="mb-4">
             <label
@@ -159,12 +188,16 @@ const App = () => {
             </label>
             <input
               className="border border-grey-500 bg-grey-100 hover:border-green-400 focus:outline-none focus:bg-white focus:border-green-400 rounded-full py-2 px-3 text-gray-700"
-              type="password"
+              type={showConfirm ? "text" : "password"}
               name="confirm"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
               required
             />
+            <VisibilityIcon
+              className="-ml-10 cursor-pointer"
+              onClick={toggleShowConfirm}
+            ></VisibilityIcon>
           </div>
           <div>
             <button
