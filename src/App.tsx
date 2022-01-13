@@ -124,7 +124,15 @@ const App = () => {
               Password
             </label>
             <input
-              className="border border-grey-500 bg-grey-100 hover:border-green-400 focus:outline-none focus:bg-white focus:border-green-400 rounded-full py-2 px-3 text-gray-700"
+              className={
+                password.length === 0
+                  ? "border border-grey-500 bg-grey-100 hover:border-green-400 focus:outline-none focus:bg-white focus:border-green-400 rounded-full py-2 px-3 text-gray-700"
+                  : !validatePassword()
+                  ? "border border-red-500 bg-grey-100 focus:outline-none focus:bg-white rounded-full py-2 px-3 text-gray-700"
+                  : validatePassword() && focus
+                  ? "border border-green-500 bg-grey-100 focus:outline-none focus:bg-white rounded-full py-2 px-3 text-gray-700"
+                  : "border border-grey-500 bg-grey-100 hover:border-green-400 focus:outline-none focus:bg-white focus:border-green-400 rounded-full py-2 px-3 text-gray-700"
+              }
               type={showPassword ? "text" : "password"}
               name="password"
               value={password}
@@ -137,7 +145,7 @@ const App = () => {
               className="-ml-10 cursor-pointer"
               onClick={toggleShowPassword}
             ></VisibilityIcon>
-            {!focus && validatePassword ? (
+            {!focus && validatePassword() ? (
               <p className="text-green-500 text-xs italic">
                 All requirements met
               </p>
