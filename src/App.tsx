@@ -8,7 +8,6 @@ type userInfo = {
 };
 
 const App = () => {
-  const [disabled, setDisabled] = useState<boolean>(false);
   const [mail, setMail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -212,7 +211,6 @@ const App = () => {
               className="bg-amber-500 text-white font-bold px-8 py-2 rounded-full hover:bg-amber-700
          focus:bg-amber-600 focus:border-2 focus:border-grey-400 active:bg-amber-900
          disabled:bg-red-100"
-              disabled={disabled}
             >
               SUBMIT
             </button>
